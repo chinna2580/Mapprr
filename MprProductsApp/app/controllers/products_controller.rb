@@ -11,6 +11,15 @@ class ProductsController < ApplicationController
 		if request.post?
 	    api_method = 'products'
 	    path = Rails.configuration.MprProductsAPI.to_s + api_method.to_s
+	    params[:category][:name] = params[:category][:name].split(',')
+	    params[:tags][:name] = params[:tags][:name].split(',')
+	    # params[:product][:image_details][:path] = params[:product][:image].path
+	    # puts params[:product][:image].path
+	    # puts params[:product][:image].content_type
+	    params[:product][:path] = params[:product][:image].path
+	    params[:product][:content_type] = params[:product][:image].content_type
+	    params[:product][:file_name] = params[:product][:image].original_filename
+	    params[:product].delete(:image)
 	    @product = ActiveSupport::JSON.decode http_post(path, params).body
 	    respond_to do |format|
 	      if @product['id']
@@ -68,6 +77,6 @@ class ProductsController < ApplicationController
 		api_method = 'products/' + params[:id]
     path = Rails.configuration.MprProductsAPI.to_s + api_method.to_s
     @product = ActiveSupport::JSON.decode http_get(path).body
-    puts @product.inspect
+    puts @product['image'].inspect
 	end
 end

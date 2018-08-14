@@ -1,4 +1,3 @@
 class Product < ApplicationRecord
-	has_many :product_categories
-	has_many :product_tags
+	has_one_attached :image
 end

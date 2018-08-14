@@ -20,6 +20,12 @@
     <%= form.label :sku_id %>
     <%= form.number_field :sku_id, value: @product['sku_id'] %>
   </div>
+  <% if @path.include? 'create' %>
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image, value: @product['sku_id'] %>
+  </div>
+  <% end %>
 
  	<div class="field">
 	  <%= fields_for :category do |category| %>
