@@ -5,16 +5,14 @@ module Api
 
 		  # GET /products
 		  def index
+		    @images = ProductImage.select('products_id,image_path').group_by(&:products_id)
 		    @products = Product.all
 
-		    render json: @products
+		    render json: { product: @products, images: @images }
 		  end
 
 		  # GET /products/1
 		  def show
-		  	puts 'inside show::'
-		  	puts @product.inspect
-		  	puts @product.image.inspect
 		    render json: @product
 		  end
 
@@ -25,7 +23,15 @@ module Api
 
 			    if @product.save
 			    	@product.update(categories: category_params[:name].join(','), tags: tag_params[:name].join(','))
-						@product.image.attach(io: File.open(params[:product][:path]), filename: params[:product][:file_name], content_type: params[:product][:content_type])
+			    	if params[:product][:path]
+			    		@product.image.attach(io: File.open(params[:product][:path]), filename: params[:product][:file_name], content_type: params[:product][:content_type])
+			    	end
+						
+			      if !params[:product][:image_path].nil?
+			      	params[:product][:image_path].split(',').each do |image_path|
+			      		@product_images = ProductImage.create(products_id: @product[:id], image_path: image_path)
+			      	end
+			      end
 			      render json: @product, status: :created, location: @product
 			    else
 			      render json: @product.errors, status: :unprocessable_entity
@@ -39,6 +45,7 @@ module Api
 		  # PATCH/PUT /products/1
 		  def update
 		    if @product.update(product_params)
+			    @product.update(categories: category_params[:name].join(','), tags: tag_params[:name].join(','))
 		      render json: @product
 		    else
 		      render json: @product.errors, status: :unprocessable_entity

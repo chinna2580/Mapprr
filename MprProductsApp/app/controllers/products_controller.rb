@@ -1,24 +1,30 @@
 class ProductsController < ApplicationController
 	include ApplicationHelper
+
+	# As a admin i should be able to see all the products
 	def index
     api_method = 'products'
     path = Rails.configuration.MprProductsAPI.to_s + api_method.to_s
     @products = ActiveSupport::JSON.decode http_get(path).body
+    @images = @products['images']
+    @products = @products['product']
     # render json: @products
 	end
 
+	# as a user, I should be able to add a new product.
 	def new
 		if request.post?
 	    api_method = 'products'
 	    path = Rails.configuration.MprProductsAPI.to_s + api_method.to_s
 	    params[:category][:name] = params[:category][:name].split(',')
 	    params[:tags][:name] = params[:tags][:name].split(',')
-	    # params[:product][:image_details][:path] = params[:product][:image].path
-	    # puts params[:product][:image].path
-	    # puts params[:product][:image].content_type
-	    params[:product][:path] = params[:product][:image].path
-	    params[:product][:content_type] = params[:product][:image].content_type
-	    params[:product][:file_name] = params[:product][:image].original_filename
+	    # <#Assumption> Assuming single image upload from the file upload
+	    # <#Assumption> Assuming images urls are provided
+	    if !params[:product][:image].nil?
+		    params[:product][:path] = params[:product][:image].path
+		    params[:product][:content_type] = params[:product][:image].content_type
+		    params[:product][:file_name] = params[:product][:image].original_filename
+		  end
 	    params[:product].delete(:image)
 	    @product = ActiveSupport::JSON.decode http_post(path, params).body
 	    respond_to do |format|
@@ -31,23 +37,18 @@ class ProductsController < ApplicationController
 	      end
 	    end
 		else
-			# @product = {
-			# 	name: '',
-			# 	expiry_date: nil,
-			# 	price: nil,
-			# 	sku_id: nil
-			# }
 			@product = {
-				# expiry_date: ''
 			}
-			# render layout: 'products/new'
 		end
 	end
 
+	# as a user, i should be able to edit a product details.
 	def edit
 		if request.post?
 	    api_method = 'products'
 	    path = Rails.configuration.MprProductsAPI.to_s + api_method.to_s
+	    params[:category][:name] = params[:category][:name].split(',')
+	    params[:tags][:name] = params[:tags][:name].split(',')
 	    @product = ActiveSupport::JSON.decode http_post(path, params).body
 	    respond_to do |format|
 	      if @product['id']
@@ -66,13 +67,9 @@ class ProductsController < ApplicationController
 	    puts @product.inspect
 			
 		end
-		# @product = {
-		# 	name: "dsff",
-		# 	expiry_date(1i)
-		# }
-		#{ }"product":{"name":"dsdf","expiry_date(1i)":"2018","expiry_date(2i)":"8","expiry_date(3i)":"14","price":"1000","sku_id":"122"}
 	end
 
+	# As a user, i should be able to see a product details.
 	def show
 		api_method = 'products/' + params[:id]
     path = Rails.configuration.MprProductsAPI.to_s + api_method.to_s

@@ -18,6 +18,14 @@
   <strong>Sku:</strong>
   <%= @product['sku_id'] %>
 </p>
+<p>
+  <strong>Categories:</strong>
+  <%= @product['categories'] %>
+</p>
+<p>
+  <strong>Tags:</strong>
+  <%= @product['tags'] %>
+</p>
 
 <%= link_to 'Edit', "/products/#{@product['id']}/edit"  %> |
 <%= link_to 'Back', '/admin/products' %>

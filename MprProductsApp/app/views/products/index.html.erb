@@ -2,20 +2,26 @@
 
 <table id="products">
   <tr>
+    <th>Product Image</th>
     <th>Product Name</th>
-    <th>Category</th>
-    <th>Release Date</th>
+    <th>SkuID</th>
+    <th>Expiry Date</th>
     <th>Price</th>
   </tr>
+  <% puts @images.inspect %>
 <% @products.each do |product| %>
   <tr>
+    <td><% if !@images[product['id'].to_s].nil?%>
+    		
+    	<img src="<%=@images[product['id'].to_s][0]['image_path']%>">
+    	<% end %>
+    </td>
     <td><%= link_to(product['name'], '/products/'+ product['id'].to_s) %></td>
-    <td><%= product['name'] %></td>
+    <td><%= product['sku_id'] %></td>
     <td><% if !product['expiry_date'].nil? %>
     	<%= product['expiry_date'].to_date.strftime("%B %e, %Y") %>
     	<% end %>
     	</td>
-    <td><%= product['sku_id'] %></td>
     <td><%= product['price'] %></td>
   </tr>
 <% end %>

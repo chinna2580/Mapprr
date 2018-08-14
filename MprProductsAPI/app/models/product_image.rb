@@ -1,4 +1,3 @@
 class ProductImage < ApplicationRecord
-	has_one_attached :image
-  belongs_to :products
+  # belongs_to :products
 end

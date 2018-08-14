@@ -25,18 +25,25 @@
     <%= form.label :image %>
     <%= form.file_field :image, value: @product['sku_id'] %>
   </div>
+  <b>Or provide URL's of the images seperated by comma(,)</b><br>
+  <div class="field">
+    <%= form.label :image_path %>
+    <%= form.text_area :image_path, value: @product['sku_id'] %>
+  </div>
   <% end %>
 
  	<div class="field">
+  <b>provide categories seperated by comma(,)</b><br>
 	  <%= fields_for :category do |category| %>
     	<%= category.label :categories %>
-    	<%= category.text_area :name, value: ''%>
+    	<%= category.text_area :name, value: @product['categories']%>
 	  <% end %>
    </div>
+  <b>provide Tags seperated by comma(,)</b><br>
  	<div class="field">
 	  <%= fields_for :tags do |tags| %>
     	<%= tags.label :tags %>
-    	<%= tags.text_area :name, value: ''%>
+    	<%= tags.text_area :name, value: @product['tags']%>
 	  <% end %>
    </div>
 
