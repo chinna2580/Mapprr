@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  sku_id: 1
+  price: 1
+  expiry_date: 2018-08-14
+
+two:
+  name: MyText
+  sku_id: 1
+  price: 1
+  expiry_date: 2018-08-14
