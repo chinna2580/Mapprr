@@ -1,0 +1,7 @@
+<h1>Editing Product</h1>
+<% @path = "/products/#{params[:id]}/edit" %>
+
+<%= render 'form'%>
+
+<%= link_to 'Show', "/products/#{@product['id']}" %> |
+<%= link_to 'Back', '/admin/products' %>

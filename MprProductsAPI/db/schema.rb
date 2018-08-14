@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180814151439) do
+ActiveRecord::Schema.define(version: 20180814180302) do
+
+  create_table "categories", force: :cascade do |t|
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.integer "products_id"
+    t.integer "categories_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["categories_id"], name: "index_product_categories_on_categories_id"
+    t.index ["products_id"], name: "index_product_categories_on_products_id"
+  end
+
+  create_table "product_tags", force: :cascade do |t|
+    t.text "name"
+    t.integer "products_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["products_id"], name: "index_product_tags_on_products_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.text "name"

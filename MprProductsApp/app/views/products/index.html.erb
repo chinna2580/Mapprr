@@ -1,0 +1,24 @@
+<h1>Products</h1>
+
+<table id="products">
+  <tr>
+    <th>Product Name</th>
+    <th>Category</th>
+    <th>Release Date</th>
+    <th>Price</th>
+  </tr>
+<% @products.each do |product| %>
+  <tr>
+    <td><%= link_to(product['name'], '/products/'+ product['id'].to_s) %></td>
+    <td><%= product['name'] %></td>
+    <td><% if !product['expiry_date'].nil? %>
+    	<%= product['expiry_date'].to_date.strftime("%B %e, %Y") %>
+    	<% end %>
+    	</td>
+    <td><%= product['sku_id'] %></td>
+    <td><%= product['price'] %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= link_to "New Product", '/products/create' %></p>

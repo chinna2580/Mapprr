@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Name:</strong>
+  <%= @product['name'] %>
+</p>
+
+<p>
+  <strong>Expiry date:</strong>
+  <%= @product['expiry_date'] %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @product['price'] %>
+</p>
+
+<p>
+  <strong>Sku:</strong>
+  <%= @product['sku_id'] %>
+</p>
+
+<%= link_to 'Edit', "/products/#{@product['id']}/edit"  %> |
+<%= link_to 'Back', '/admin/products' %>

@@ -1,0 +1,40 @@
+<%= form_for(:product, url: @path) do |form| %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_area :name, value: @product['name'] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :expiry_date %>
+    <% expiry_date = @product['expiry_date'].nil? ? '' : @product['expiry_date']%>
+    <%= form.date_field :expiry_date, value: expiry_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price, value: @product['price'] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sku_id %>
+    <%= form.number_field :sku_id, value: @product['sku_id'] %>
+  </div>
+
+ 	<div class="field">
+	  <%= fields_for :category do |category| %>
+    	<%= category.label :categories %>
+    	<%= category.text_area :name, value: ''%>
+	  <% end %>
+   </div>
+ 	<div class="field">
+	  <%= fields_for :tags do |tags| %>
+    	<%= tags.label :tags %>
+    	<%= tags.text_area :name, value: ''%>
+	  <% end %>
+   </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
